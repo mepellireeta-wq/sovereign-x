@@ -6,8 +6,94 @@ class AgentPlanner:
         files = files or []
         req_lower = user_request.lower()
         
+        # Financial Audit Multi-Step Plan
+        if "financial" in req_lower or "audit" in req_lower or "accounting" in req_lower or "balance sheet" in req_lower:
+            return [
+                {
+                    "step_number": 1,
+                    "step_name": "Extract Financial Statements & Parse Ledgers",
+                    "tool_name": "parse_pdf_and_ocr",
+                    "description": "Parse financial statements, invoices, and ledger documents using local OCR and PDF tools."
+                },
+                {
+                    "step_number": 2,
+                    "step_name": "Sandboxed Python Financial Analytics",
+                    "tool_name": "execute_python_analytics",
+                    "description": "Run Python financial calculations to compute variance, EBITDA, ratio trends, and anomaly detection."
+                },
+                {
+                    "step_number": 3,
+                    "step_name": "Query Compliance & Regulatory RAG Base",
+                    "tool_name": "query_rag_sop",
+                    "description": "Cross-reference audit findings against sovereign accounting standards and compliance guidelines with citations."
+                },
+                {
+                    "step_number": 4,
+                    "step_name": "Synthesize Audit Discrepancies & Risk Score",
+                    "tool_name": "formulate_recommendation",
+                    "description": "Calculate risk scores and synthesize discrepancy findings across financial ledgers and compliance rules."
+                },
+                {
+                    "step_number": 5,
+                    "step_name": "Request Human-in-the-Loop Financial Review",
+                    "tool_name": "request_hitl_approval",
+                    "description": "Present audit findings and financial risk breakdown to Chief Financial Officer for authorization."
+                },
+                {
+                    "step_number": 6,
+                    "step_name": "Generate Downloadable Financial Audit Deliverables",
+                    "tool_name": "generate_deliverables",
+                    "description": "Synthesize official DOCX Audit Report, XLSX Financial Variance Workbook, and PPTX Audit Briefing."
+                }
+            ]
+        # P&ID Drawing Review Multi-Step Plan
+        elif "p&id" in req_lower or "pid" in req_lower or "drawing" in req_lower or "schematic" in req_lower or "diagram" in req_lower:
+            return [
+                {
+                    "step_number": 1,
+                    "step_name": "Parse P&ID Diagram & OCR Vector Schematics",
+                    "tool_name": "parse_pdf_and_ocr",
+                    "description": "Extract text, annotations, equipment tags, and line designations from P&ID drawing files."
+                },
+                {
+                    "step_number": 2,
+                    "step_name": "Multimodal Visual & Computer Vision Diagram Inspection",
+                    "tool_name": "analyze_equipment_image",
+                    "description": "Analyze P&ID image/diagram for valve symbols, instrumentation loops, and line connectivity errors."
+                },
+                {
+                    "step_number": 3,
+                    "step_name": "Sandboxed Python Line Sizing & Hydraulic Calculations",
+                    "tool_name": "execute_python_analytics",
+                    "description": "Perform sandboxed Python calculations for pipe sizing, pressure drops, and flow rate compliance."
+                },
+                {
+                    "step_number": 4,
+                    "step_name": "Search Piping & Instrumentation Engineering Standards (RAG)",
+                    "tool_name": "query_rag_sop",
+                    "description": "Retrieve governing ASME/API/MRPL piping and instrumentation standards with page citations."
+                },
+                {
+                    "step_number": 5,
+                    "step_name": "Synthesize P&ID Compliance & HAZOP Recommendations",
+                    "tool_name": "formulate_recommendation",
+                    "description": "Synthesize safety interlocks, HAZOP findings, and engineering compliance into a unified recommendation."
+                },
+                {
+                    "step_number": 6,
+                    "step_name": "Request Human-in-the-Loop Process Engineer Approval",
+                    "tool_name": "request_hitl_approval",
+                    "description": "Submit P&ID review summary and modification approval card to Lead Process Engineer."
+                },
+                {
+                    "step_number": 7,
+                    "step_name": "Generate Final Engineering Deliverables",
+                    "tool_name": "generate_deliverables",
+                    "description": "Generate DOCX P&ID Review Note, XLSX Equipment Schedule & Line List, and PPTX Process Safety Deck."
+                }
+            ]
         # Inspection to Approval Multi-Step Plan
-        if "inspection" in req_lower or "pump" in req_lower or "approval" in req_lower or "maintenance" in req_lower:
+        elif "inspection" in req_lower or "pump" in req_lower or "approval" in req_lower or "maintenance" in req_lower:
             return [
                 {
                     "step_number": 1,
