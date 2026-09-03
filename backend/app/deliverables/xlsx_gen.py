@@ -49,6 +49,53 @@ class XLSXGenerator:
                         cell.fill = PatternFill(start_color="D4EDDA", end_color="D4EDDA", fill_type="solid")
                         cell.font = Font(color="155724", bold=True)
                         
+        # Automated Summary Formulas
+        summary_font = Font(name="Calibri", size=11, bold=True)
+        summary_fill = PatternFill(start_color="E9ECEF", end_color="E9ECEF", fill_type="solid")
+        summary_border = Border(
+            top=Side(style="thin", color="0B3C5D"),
+            bottom=Side(style="double", color="0B3C5D")
+        )
+        
+        last_data_row = 4 + len(sample_rows)
+        summary_row = last_data_row + 1
+        
+        # Summary row in the main table
+        ws.cell(row=summary_row, column=1, value="Summary (Average / Peak)")
+        cell_avg = ws.cell(row=summary_row, column=2, value=f"=AVERAGE(B5:B{last_data_row})")
+        cell_peak = ws.cell(row=summary_row, column=3, value=f"=MAX(C5:C{last_data_row})")
+        
+        cell_avg.number_format = "0.00"
+        cell_peak.number_format = "0.0"
+        
+        for c in range(1, len(headers) + 1):
+            cell = ws.cell(row=summary_row, column=c)
+            cell.font = summary_font
+            cell.fill = summary_fill
+            cell.border = summary_border
+
+        # Dedicated Summary Metrics Block
+        metric_start_row = summary_row + 2
+        ws.cell(row=metric_start_row, column=1, value="Summary Metric").font = header_font
+        ws.cell(row=metric_start_row, column=1).fill = header_fill
+        ws.cell(row=metric_start_row, column=2, value="Automated Formula / Value").font = header_font
+        ws.cell(row=metric_start_row, column=2).fill = header_fill
+
+        row_avg_metric = metric_start_row + 1
+        ws.cell(row=row_avg_metric, column=1, value="Average Vibration (mm/s)").font = summary_font
+        m_avg = ws.cell(row=row_avg_metric, column=2, value=f"=AVERAGE(B5:B{last_data_row})")
+        m_avg.font = summary_font
+        m_avg.number_format = "0.00"
+
+        row_peak_metric = metric_start_row + 2
+        ws.cell(row=row_peak_metric, column=1, value="Peak Temperature (°C)").font = summary_font
+        m_peak = ws.cell(row=row_peak_metric, column=2, value=f"=MAX(C5:C{last_data_row})")
+        m_peak.font = summary_font
+        m_peak.number_format = "0.0"
+        m_peak_c = ws.cell(row=row_peak_metric, column=3, value=f"=MAX(C5:C{last_data_row})")
+        m_peak_c.font = summary_font
+        m_peak_c.number_format = "0.0"
+
         filename = f"P102B_Sensor_Analytics_{int(datetime.now().timestamp())}.xlsx"
         file_path = os.path.join(settings.DELIVERABLES_DIR, filename)
         wb.save(file_path)
