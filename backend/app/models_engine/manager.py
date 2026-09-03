@@ -60,6 +60,18 @@ DEFAULT_MODELS = [
         "status": "Available",
         "memory_mb": 4096,
         "default_use_case": "Fast document summarization, PDF extraction, table lookup"
+    },
+    {
+        "id": 6,
+        "name": "CodeLlama-34B-Instruct",
+        "model_type": "coding",
+        "endpoint": "http://localhost:11434",
+        "context_length": 16384,
+        "quantization": "Q4_K_M",
+        "is_active": True,
+        "status": "Available",
+        "memory_mb": 20480,
+        "default_use_case": "High-precision code synthesis, refactoring, and engineering calculations"
     }
 ]
 
