@@ -1,62 +1,44 @@
 import React, { useState } from 'react';
-import { Sidebar } from './components/Sidebar';
 import { Navbar } from './components/Navbar';
+import { BottomNav } from './components/BottomNav';
 import { Dashboard } from './pages/Dashboard';
 import { AIWorkbench } from './pages/AIWorkbench';
 import { AgentRuns } from './pages/AgentRuns';
-import { KnowledgeBase } from './pages/KnowledgeBase';
-import { Documents } from './pages/Documents';
-import { ModelManager } from './pages/ModelManager';
-import { ToolsPage } from './pages/ToolsPage';
-import { Deliverables } from './pages/Deliverables';
-import { AuditLogs } from './pages/AuditLogs';
 import { SovereigntyMonitor } from './pages/SovereigntyMonitor';
-import { SIHDemo } from './pages/SIHDemo';
-import { Settings } from './pages/Settings';
+import { ApprovalsPage } from './pages/ApprovalsPage';
 
 export const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('sih-demo');
+  const [activeTab, setActiveTab] = useState('status');
 
-  const renderContent = () => {
+  const renderPage = () => {
     switch (activeTab) {
-      case 'sih-demo':
-        return <SIHDemo />;
-      case 'dashboard':
-        return <Dashboard />;
+      case 'status':
+        return <Dashboard onNavigate={setActiveTab} />;
       case 'workbench':
         return <AIWorkbench />;
-      case 'agent-runs':
+      case 'runs':
         return <AgentRuns />;
-      case 'knowledge-base':
-        return <KnowledgeBase />;
-      case 'documents':
-        return <Documents />;
-      case 'models':
-        return <ModelManager />;
-      case 'tools':
-        return <ToolsPage />;
-      case 'deliverables':
-        return <Deliverables />;
-      case 'audit-logs':
-        return <AuditLogs />;
-      case 'sovereignty':
+      case 'security':
         return <SovereigntyMonitor />;
-      case 'settings':
-        return <Settings />;
+      case 'approvals':
+        return <ApprovalsPage />;
       default:
-        return <SIHDemo />;
+        return <Dashboard onNavigate={setActiveTab} />;
     }
   };
 
   return (
-    <div className="flex h-screen bg-slate-950 text-slate-100 overflow-hidden font-sans">
-      <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden bg-slate-900/60">
-        <Navbar activeTab={activeTab} />
-        <main className="flex-1 overflow-y-auto">
-          {renderContent()}
-        </main>
-      </div>
+    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col justify-between font-sans selection:bg-blue-600 selection:text-white">
+      {/* Top Header Navbar */}
+      <Navbar title="SOVEREIGN-X" subtitle="PRIVATE INDUSTRIAL AI" />
+
+      {/* Main Active Page View */}
+      <main className="flex-1 overflow-y-auto">
+        {renderPage()}
+      </main>
+
+      {/* Fixed Bottom Navigation Bar (5 Tabs matching Images) */}
+      <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
     </div>
   );
 };
