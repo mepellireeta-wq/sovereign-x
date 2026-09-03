@@ -19,7 +19,7 @@ FORBIDDEN_AST_NODES = {
     'ImportFrom': ['os', 'sys', 'socket', 'urllib', 'httpx', 'requests', 'subprocess', 'shutil']
 }
 
-FORBIDDEN_CALLS = {'eval', 'exec', '__import__', 'open', 'system', 'popen'}
+FORBIDDEN_CALLS = {'eval', 'exec', '__import__', 'open', 'system', 'popen', 'exit', 'quit'}
 
 class SecureSandboxRunner:
     def __init__(self, timeout_seconds: int = 10):
@@ -40,8 +40,13 @@ class SecureSandboxRunner:
                 if node.module and node.module.split('.')[0] in FORBIDDEN_AST_NODES['ImportFrom']:
                     raise SecurityError(f"Security Policy Violation: Import from '{node.module}' is strictly prohibited in sandbox")
             elif isinstance(node, ast.Call):
-                if isinstance(node.func, ast.Name) and node.func.id in FORBIDDEN_CALLS:
-                    raise SecurityError(f"Security Policy Violation: Invocation of '{node.func.id}()' is prohibited")
+                func_id = None
+                if isinstance(node.func, ast.Name):
+                    func_id = node.func.id
+                elif isinstance(node.func, ast.Attribute):
+                    func_id = node.func.attr
+                if func_id and func_id in FORBIDDEN_CALLS:
+                    raise SecurityError(f"Security Policy Violation: Invocation of '{func_id}()' is prohibited")
 
     def execute(self, code: str, context_vars: Dict[str, Any] = None) -> Dict[str, Any]:
         # Validate AST
