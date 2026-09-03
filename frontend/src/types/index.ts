@@ -1,6 +1,6 @@
 export interface Model {
   id: number;
-  name: str;
+  name: string;
   model_type: string;
   endpoint: string;
   context_length: number;
