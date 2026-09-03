@@ -32,6 +32,14 @@ class DOCXGenerator:
         hp.runs[0].font.size = Pt(8.5)
         hp.runs[0].font.color.rgb = RGBColor(120, 120, 120)
         
+        # Styling Footer
+        footer = doc.sections[0].footer
+        fp = footer.paragraphs[0]
+        fp.text = "MRPL CONFIDENTIAL — SOVEREIGN AIR-GAPPED ON-PREMISE AI GENERATED DOCUMENT"
+        fp.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        fp.runs[0].font.size = Pt(8.5)
+        fp.runs[0].font.color.rgb = RGBColor(120, 120, 120)
+        
         # Title
         title_p = doc.add_paragraph()
         title_run = title_p.add_run("MAINTENANCE APPROVAL & ACTION NOTE")
